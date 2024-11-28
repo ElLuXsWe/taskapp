@@ -11,8 +11,14 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Aquí definimos la exclusión del middleware CSRF
+        $middleware->validateCsrfTokens(except: [
+            'tasks', 
+            'tasks/*',  // Rutas de tareas
+            'api/*',    // Rutas de API
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
+    })
+    ->create();
